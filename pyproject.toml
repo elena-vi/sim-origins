@@ -1,0 +1,55 @@
+[tool.poetry]
+name = "sim-origins"
+version = "0.1.0"
+description = "A Sims 4 script mod foundation for generating believable family histories."
+authors = ["Sim Origins Contributors"]
+readme = "README.md"
+packages = [{ include = "sim_origins", from = "src" }]
+
+[tool.poetry.dependencies]
+python = ">=3.7,<4.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "7.4.4"
+pytest-cov = "4.1.0"
+ruff = "0.8.6"
+
+[build-system]
+requires = ["poetry-core>=1.7.0,<2.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+addopts = [
+  "--strict-config",
+  "--strict-markers",
+  "--cov=sim_origins",
+  "--cov=tools",
+  "--cov-report=term-missing",
+  "--cov-report=xml",
+]
+pythonpath = ["src", "."]
+testpaths = ["tests"]
+
+[tool.coverage.run]
+branch = true
+source = ["src/sim_origins", "tools"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+exclude_lines = [
+  "if __name__ == .__main__.:",
+  "pragma: no cover",
+]
+
+[tool.ruff]
+line-length = 88
+src = ["src", "tests", "tools"]
+target-version = "py37"
+
+[tool.ruff.lint]
+ignore = ["UP006", "UP007"]
+select = ["B", "E", "F", "I", "SIM", "UP"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["sim_origins", "tools"]
