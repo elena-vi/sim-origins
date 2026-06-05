@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Ruff, tests, and builds
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Poetry
+        run: python -m pip install "poetry==2.1.1"
+
+      - name: Configure Poetry
+        run: poetry config virtualenvs.in-project true
+
+      - name: Install dependencies
+        run: poetry install --no-interaction
+
+      - name: Run Ruff
+        run: |
+          poetry run ruff check .
+          poetry run ruff format --check .
+
+      - name: Run tests with coverage
+        run: poetry run pytest
+
+      - name: Build Python package
+        run: poetry build
+
+      - name: Build Sims 4 script package
+        run: poetry run python tools/build_ts4script.py
