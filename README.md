@@ -20,6 +20,24 @@ Install dependencies:
 poetry install
 ```
 
+Run the default local workflow:
+
+```bash
+make
+```
+
+This runs Ruff fixes, tests with coverage, the Python package build, and the
+Sims 4 script archive build.
+
+Common Make targets:
+
+```bash
+make fix    # Apply Ruff lint fixes and formatting
+make test   # Run pytest with configured coverage reporting
+make build  # Build the Python package and .ts4script archive
+make check  # Run Ruff checks without modifying files
+```
+
 Run linting and formatting checks:
 
 ```bash
