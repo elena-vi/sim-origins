@@ -65,6 +65,44 @@ poetry run python tools/build_ts4script.py
 
 The script archive is written to `dist/sim-origins.ts4script`.
 
+## Install the Mod
+
+1. Build the Sims 4 script archive:
+
+   ```bash
+   make build
+   ```
+
+2. Create a Sims 4 Mods subfolder for the project:
+
+   ```text
+   Documents/Electronic Arts/The Sims 4/Mods/Sim Origins/
+   ```
+
+3. Copy `dist/sim-origins.ts4script` into that folder.
+4. Open The Sims 4 and enable custom content and script mods in game options.
+5. Restart the game after changing script mod settings.
+
+## Manual Sims 4 Archive Verification
+
+V0 does not add a cheat command, pie-menu interaction, startup hook, or gameplay
+behavior. Manual verification is limited to confirming that The Sims 4 accepts
+the archive without a Python load error.
+
+Suggested V0 verification:
+
+1. Remove any previous Sim Origins `.ts4script` files from the Mods folder.
+2. Install the freshly built `dist/sim-origins.ts4script`.
+3. Start The Sims 4 with script mods enabled.
+4. Load into the main menu or a save.
+5. Confirm that no new Sim Origins-related `lastException.txt` or
+   `lastUIException.txt` file is produced.
+
+A visible in-game verification command belongs in V1, when the
+`familytree.generate` cheat command is introduced. See
+[Packaging and Manual Game Verification](docs/packaging.md) for the fuller
+workflow and custom build options.
+
 ## Project Layout
 
 - `.github/workflows/` contains CI for linting, tests, coverage, and builds.
