@@ -11,6 +11,9 @@ def test_build_ts4script_writes_package_python_files(tmp_path):
     source_root = tmp_path / "src"
     package_root = source_root / "sim_origins"
     package_root.mkdir(parents=True)
+    (source_root / "sim_origins_bootstrap.py").write_text(
+        "import sim_origins.sims_integration.commands\n"
+    )
     (package_root / "__init__.py").write_text('"""Test package."""\n')
     (package_root / "module.py").write_text("VALUE = 1\n")
     cache_root = package_root / "__pycache__"
@@ -32,6 +35,7 @@ def test_build_ts4script_writes_package_python_files(tmp_path):
         assert archive.namelist() == [
             "sim_origins/__init__.py",
             "sim_origins/module.py",
+            "sim_origins_bootstrap.py",
         ]
         assert archive.read("sim_origins/module.py") == b"VALUE = 1\n"
 
@@ -41,9 +45,20 @@ def test_collect_package_files_fails_when_package_directory_is_missing(tmp_path)
         collect_package_files(source_root=tmp_path / "src", package_name="sim_origins")
 
 
+def test_collect_package_files_fails_when_bootstrap_is_missing(tmp_path):
+    source_root = tmp_path / "src"
+    (source_root / "sim_origins").mkdir(parents=True)
+
+    with pytest.raises(FileNotFoundError, match="bootstrap module"):
+        collect_package_files(source_root=source_root, package_name="sim_origins")
+
+
 def test_build_ts4script_fails_when_package_has_no_python_files(tmp_path):
     source_root = tmp_path / "src"
     (source_root / "sim_origins").mkdir(parents=True)
+    (source_root / "sim_origins_bootstrap.py").write_text(
+        "import sim_origins.sims_integration.commands\n"
+    )
 
     with pytest.raises(ValueError, match="No Python files found"):
         build_ts4script(

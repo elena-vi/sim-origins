@@ -10,7 +10,7 @@ import pytest
 SOURCE_ROOT = Path(__file__).resolve().parents[1] / "src"
 PACKAGE_ROOT = SOURCE_ROOT / "sim_origins"
 DOMAIN_ROOT = PACKAGE_ROOT / "domain"
-PYTHON_SOURCE_ROOTS = [PACKAGE_ROOT, Path(__file__).resolve().parents[1] / "tools"]
+PYTHON_SOURCE_ROOTS = [SOURCE_ROOT, Path(__file__).resolve().parents[1] / "tools"]
 FORBIDDEN_DOMAIN_IMPORT_PREFIXES = (
     "interactions",
     "objects",

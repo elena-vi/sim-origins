@@ -1,11 +1,10 @@
 # Sim Origins
 
 Sim Origins is a Sims 4 script mod project that will generate believable family
-histories for Sims. The current repository state is focused on V0: establishing
-the modding workspace, project architecture, packaging workflow, and contributor
-documentation.
+histories for Sims. V1 adds the `familytree.generate` cheat command as the
+entry point for future family generation.
 
-No genealogy generation or game-specific behavior is implemented in V0.
+V1 does not create parents, grandparents, or any other relatives.
 
 ## Development Quick Start
 
@@ -83,25 +82,25 @@ The script archive is written to `dist/sim-origins.ts4script`.
 4. Open The Sims 4 and enable custom content and script mods in game options.
 5. Restart the game after changing script mod settings.
 
-## Manual Sims 4 Archive Verification
+## Use the Cheat Command
 
-V0 does not add a cheat command, pie-menu interaction, startup hook, or gameplay
-behavior. Manual verification is limited to confirming that The Sims 4 accepts
-the archive without a Python load error.
+1. Load a household and select the Sim to target.
+2. Open the cheat console.
+3. Run:
 
-Suggested V0 verification:
+   ```text
+   familytree.generate
+   ```
 
-1. Remove any previous Sim Origins `.ts4script` files from the Mods folder.
-2. Install the freshly built `dist/sim-origins.ts4script`.
-3. Start The Sims 4 with script mods enabled.
-4. Load into the main menu or a save.
-5. Confirm that no new Sim Origins-related `lastException.txt` or
-   `lastUIException.txt` file is produced.
+The command does not require `testingcheats true`. It resolves the active Sim
+from the client connection that invoked the command, logs the result, and
+prints an acknowledgement in the cheat console. V1 intentionally stops there
+without generating family members.
 
-A visible in-game verification command belongs in V1, when the
-`familytree.generate` cheat command is introduced. See
-[Packaging and Manual Game Verification](docs/packaging.md) for the fuller
-workflow and custom build options.
+If no valid active Sim can be resolved, the command prints a safe error message
+and does not call the application use case. See
+[Packaging and Manual Game Verification](docs/packaging.md) for the full manual
+verification workflow.
 
 ## Project Layout
 
