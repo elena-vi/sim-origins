@@ -2,15 +2,15 @@
 
 ## Scope
 
-Work is tracked through GitHub issues. V0 is issue #1: "Establish Modding
-Workspace and Project Architecture." Do not implement V1-V6 behavior while
-working on V0.
+Work is tracked through GitHub issues. V1 is issue #2: "Add
+familytree.generate Cheat Command." Do not implement V2-V6 behavior while
+working on V1.
 
 ## Environment
 
-The project uses Poetry and targets Python 3.7 compatibility because Sims 4
-script mods run on a Python 3.7 runtime. Development can happen on a newer
-Python version, but source code must remain compatible with Python 3.7.
+The project uses Poetry and targets Python 3.7 compatibility for the configured
+Sims 4 runtime baseline. Development can happen on a newer Python version, but
+source code must remain compatible with Python 3.7.
 
 Install dependencies:
 

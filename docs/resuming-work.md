@@ -3,14 +3,16 @@
 This document is a quick orientation point for future contributors and coding
 agents returning after time away.
 
-## Current V0 State
+## Current V1 State
 
-The repository contains the initial project architecture, Poetry configuration,
-tests, coverage reporting, Ruff configuration, CI, and a `.ts4script` packaging
-tool.
+The repository contains the V0 project foundation and the V1
+`familytree.generate` command. The command targets the invoking connection's
+active Sim, delegates to the application layer, emits console and log output,
+and handles missing selections safely.
 
-The project intentionally does not contain genealogy generation, cheat commands,
-pie menu integration, townie connections, or automatic new-Sim hooks yet.
+The V1 application use case intentionally acknowledges the request without
+generating relatives. Pie menu integration, townie connections, and automatic
+new-Sim hooks are also not implemented.
 
 ## Start Here
 
@@ -37,13 +39,13 @@ pie menu integration, townie connections, or automatic new-Sim hooks yet.
    poetry run python tools/build_ts4script.py
    ```
 
-## V1 Readiness Checklist
+## V1 Manual Validation Checklist
 
-Before beginning V1, confirm:
+Before closing V1, confirm:
 
-- V0 CI is passing.
-- Manual in-game archive verification has been performed by someone with Sims 4
-  installed.
-- The `familytree.generate` command design keeps Sims 4 API usage inside
-  `sims_integration/`.
-- Any domain rules introduced for V1 have behavior tests before implementation.
+- The full automated verification workflow passes.
+- The built archive loads without a Sim Origins-related exception.
+- `familytree.generate` runs for the selected Sim without testing cheats.
+- The console and game log contain the expected acknowledgement.
+- No family members are created.
+- Missing active-Sim behavior is verified where the game allows that state.

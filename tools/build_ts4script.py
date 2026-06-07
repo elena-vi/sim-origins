@@ -11,6 +11,7 @@ from zipfile import ZIP_DEFLATED, ZipFile, ZipInfo
 DEFAULT_PACKAGE_NAME = "sim_origins"
 DEFAULT_SOURCE_ROOT = Path("src")
 DEFAULT_OUTPUT_PATH = Path("dist/sim-origins.ts4script")
+BOOTSTRAP_MODULE_NAME = "sim_origins_bootstrap.py"
 ZIP_TIMESTAMP = (1980, 1, 1, 0, 0, 0)
 
 
@@ -31,6 +32,12 @@ def collect_package_files(source_root: Path, package_name: str) -> List[ArchiveE
             f"Could not find package directory for .ts4script build: {package_dir}"
         )
 
+    bootstrap_path = source_root / BOOTSTRAP_MODULE_NAME
+    if not bootstrap_path.is_file():
+        raise FileNotFoundError(
+            f"Could not find .ts4script bootstrap module: {bootstrap_path}"
+        )
+
     entries = [
         ArchiveEntry(
             source_path=path,
@@ -43,7 +50,13 @@ def collect_package_files(source_root: Path, package_name: str) -> List[ArchiveE
     if not entries:
         raise ValueError(f"No Python files found for .ts4script build in {package_dir}")
 
-    return entries
+    entries.append(
+        ArchiveEntry(
+            source_path=bootstrap_path,
+            archive_path=bootstrap_path.name,
+        )
+    )
+    return sorted(entries, key=lambda entry: entry.archive_path)
 
 
 def write_archive(entries: Iterable[ArchiveEntry], output_path: Path) -> Path:
